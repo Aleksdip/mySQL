@@ -13,3 +13,20 @@ Employees.LName,
 Customers.FName,
 Customers.LName
 having SUM(TotalPrice) > 1000;
+
+--------------------------------------------------------------------------------------------------
+USE shopdb;
+
+SELECT (SELECT FName FROM Employees WHERE EmployeeID =
+(SELECT EmployeeID FROM Orders WHERE Orders.OrderID = OrderDetails.OrderID)
+		) AS FName,
+(SELECT LName FROM Employees WHERE EmployeeID =
+(SELECT EmployeeID FROM Orders WHERE Orders.OrderID = OrderDetails.OrderID)
+		) AS LName,
+(SELECT MName FROM Employees WHERE EmployeeID =
+(SELECT EmployeeID FROM Orders WHERE Orders.OrderID = OrderDetails.OrderID)
+		) AS MName,   
+SUM(TotalPrice)
+FROM OrderDetails
+GROUP BY Fname, Lname, Mname
+HAVING SUM(TotalPrice) > 1000
